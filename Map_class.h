@@ -130,15 +130,13 @@ void Map<T, T1>::VertexBalancing(Node* new_elem, Node* father, Node* gr_father) 
 		}
 		else { //if uncle is nullptr or uncle color is black
 			if (RightOrLeft(new_elem)) { //if the new element is the right son
-				RotateLeft(father); //call left rotation of father
-				VertexBalancing(father, new_elem, gr_father); //call balancing for father, new element and grandfather
+			        RotateLeft(gr_father); //call left rotation of grand father
+				father->color = black; //recolor father in black
+				gr_father->color = red; //recolor grandfather in red	
 			}
 			else { //if the new element is the left son
-				RotateRight(gr_father); //call right rotation of grandfather
-				father->color = black; //recolor father in black
-				gr_father->color = red; //recolor grandfather in red
-				if (father != root) //if father isn't root
-					VertexBalancing(father, father->parent, father->parent->parent); //call balancing for father, grandfather and grand-grand father
+				RotateRight(father); //call right rotation of father
+				VertexBalancing(father, new_elem, gr_father);
 			}
 		}
 	}
@@ -161,8 +159,6 @@ void Map<T, T1>::VertexBalancing(Node* new_elem, Node* father, Node* gr_father) 
 				RotateRight(gr_father); //call the right rotation of the grandfather
 				father->color = black; //recolor father in black
 				gr_father->color = red; //recolor grandfather in red
-				if (father != root) //if the father isn't the root
-					VertexBalancing(father, father->parent, father->parent->parent); //call balancing for father, grandfather, grand-grand father
 			}
 		}
 	}
